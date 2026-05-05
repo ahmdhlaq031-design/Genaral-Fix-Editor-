@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="theme-color" content="#6366f1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="description" content="General Fix Editor - محرر وسائط متكامل للصور والفيديو والصوت">
+    <title>🎬 General Fix Editor | المحرر الأسطوري</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkdlbmVyYWwgRml4IEVkaXRvciIsCiAgInNob3J0X25hbWUiOiAiR0YgRWRpdG9yIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMwYTBmMWEiLAogICJ0aGVtZV9jb2xvciI6ICIjNjM2NmYxIiwKICAiaWNvbnMiOiBbewogICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lJSEJ5WlhObGNuWmxRWE5sY25Oa1BTSXdJREFnT20xbGNtMWxjaUE4TDNOMlp6ND0iLAogICAgInNpemVzIjogIjE5MngxOTIiLAogICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogIH1dfQ==">
+    
+    <style>
+        :root {
+            --bg-primary: #0a0f1a;
+            --bg-secondary: #111827;
+            --bg-card: rgba(17, 24, 39, 0.95);
+            --bg-input: #1a2235;
+            --text-primary: #e2e8f0;
+            --text-secondary: #b0bec5;
+            --text-muted: #78909c;
+            --border-color: rgba(148, 163, 184, 0.12);
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #818cf8;
+            --primary-glow: rgba(99, 102, 241, 0.35);
+            --accent: #06b6d4;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --gold: #fbbf24;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 30px rgba(0,0,0,0.5);
+            --shadow-lg: 0 20px 60px rgba(0,0,0,0.6);
+            --shadow-glow: 0 0 40px var(--primary-glow);
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Cairo', Tahoma, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            min-height: 100dvh;
+            overflow-x: hidden;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse at 20% 20%, var(--primary-glow), transparent 50%),
+                radial-gradient(ellipse at 80% 60%, rgba(6, 182, 212, 0.15), transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(139, 92, 246, 0.1), transparent 50%);
+            z-index: -1;
+            pointer-events: none;
+            animation: bgFloat 15s ease-in-out infinite alternate;
+        }
+
+        @keyframes bgFloat {
+            0% { opacity: 0.7; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.03); }
+        }
+
+        /* ========== SIDEBAR OVERLAY ========== */
+        .sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* ========== SIDEBAR ========== */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -380px;
+            width: 340px;
+            height: 100vh;
+            height: 100dvh;
+            background: rgba(10, 15, 26, 0.98);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border-left: 1px solid var(--border-color);
+            z-index: 1100;
+            padding: 80px 18px 30px;
+            transition: right 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+        }
+        .sidebar.open {
+            right: 0;
+        }
+
+        .sidebar-section {
+            margin-bottom: 25px;
+        }
+
+        .sidebar-title {
+            font-size: 0.68rem;
+            font-weight: 900;
+            color: var(--gold);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 14px;
+            padding-right: 10px;
+            border-right: 3px solid var(--gold);
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.88rem;
+            transition: var(--transition);
+            cursor: pointer;
+            border: 1.5px solid transparent;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-link:hover {
+            background: rgba(99, 102, 241, 0.15);
+            border-color: rgba(99, 102, 241, 0.3);
+            color: white;
+            transform: translateX(-5px);
+        }
+
+        .sidebar-link .s-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--bg-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .sidebar-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+            margin: 16px 8px;
+        }
+
+        .donate-box {
+            background: rgba(251, 191, 36, 0.08);
+            border: 1px solid rgba(251, 191, 36, 0.25);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .donate-box strong {
+            color: var(--gold);
+        }
+
+        .crypto-address {
+            background: var(--bg-input);
+            padding: 8px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.65rem;
+            word-break: break-all;
+            direction: ltr;
+            text-align: left;
+            margin: 8px 0;
+            color: var(--text-secondary);
+        }
+
+        .btn-sm {
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.72rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-family: inherit;
+            width: 100%;
+            margin-top: 5px;
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #1a1a0a;
+        }
+
+        .btn-primary-sm {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* ========== HEADER ========== */
+        .header {
+            background: rgba(10, 15, 26, 0.95);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 500;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            font-weight: 900;
+        }
+
+        .logo-icon {
+            font-size: 1.8rem;
+            animation: logoPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes logoPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        .logo-text {
+            background: linear-gradient(135deg, #6366f1, #06b6d4, #8b5cf6);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: textGradient 4s ease infinite;
+        }
+
+        @keyframes textGradient {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .menu-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            background: var(--primary);
+            border: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 600;
+            box-shadow: 0 4px 15px var(--primary-glow);
+        }
+
+        .menu-btn:hover {
+            background: var(--primary-dark);
+            transform: scale(1.06);
+        }
+
+        .menu-btn span {
+            display: block;
+            width: 22px;
+            height: 2.5px;
+            border-radius: 3px;
+            background: white;
+            transition: var(--transition);
+        }
+
+        .menu-btn.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .menu-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .menu-btn.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* ========== MAIN CONTENT ========== */
+        .main-content {
+            padding: 20px 16px 40px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 20px 0 10px;
+        }
+
+        .hero h1 {
+            font-size: clamp(1.6rem, 4vw, 2.2rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #6366f1, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        /* ========== TAB SWITCHER ========== */
+        .tab-switcher {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            border-radius: 30px;
+            background: var(--bg-card);
+            border: 1.5px solid var(--border-color);
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.82rem;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: transparent;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .tab-btn:hover:not(.active) {
+            border-color: var(--primary);
+            color: var(--primary-light);
+        }
+
+        /* ========== EDITOR AREA ========== */
+        .editor-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            padding: 20px;
+            backdrop-filter: blur(30px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .canvas-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto 20px;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 2px solid var(--border-color);
+            background: #000;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        canvas {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        video {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            border-radius: var(--radius-lg);
+        }
+
+        audio {
+            width: 100%;
+            margin: 15px 0;
+        }
+
+        .upload-area {
+            border: 2px dashed var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 20px;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .controls-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin: 15px 0;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-family: inherit;
+            font-size: 0.82rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 15px var(--primary-glow);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary-light);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .slider-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin: 10px 0;
+        }
+
+        .slider-group label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: var(--bg-input);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            border: 3px solid white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+            background: var(--bg-input);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.85rem;
+        }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 8px;
+            margin: 15px 0;
+        }
+
+        .filter-preset {
+            padding: 10px 8px;
+            border-radius: var(--radius-sm);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            text-align: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+            transition: var(--transition);
+            color: var(--text-secondary);
+        }
+
+        .filter-preset:hover {
+            border-color: var(--primary);
+            color: white;
+            background: rgba(99, 102, 241, 0.2);
+        }
+
+        .filter-preset .preview {
+            width: 100%;
+            height: 40px;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            background: linear-gradient(135deg, #6366f1, #06b6d4);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--success);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 35px;
+            font-weight: 700;
+            z-index: 2000;
+            opacity: 0;
+            transition: 0.3s ease;
+            pointer-events: none;
+            font-size: 0.85rem;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast.error {
+            background: var(--danger);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 600px) {
+            .sidebar {
+                width: 290px;
+                right: -310px;
+            }
+            .header {
+                padding: 10px 12px;
+            }
+            .logo-text {
+                font-size: 1rem;
+            }
+            .menu-btn {
+                width: 38px;
+                height: 38px;
+            }
+            .tab-btn {
+                padding: 8px 14px;
+                font-size: 0.75rem;
+            }
+            .btn {
+                padding: 8px 16px;
+                font-size: 0.75rem;
+            }
+            .editor-container {
+                padding: 14px;
+            }
+            .canvas-wrapper {
+                min-height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SIDEBAR OVERLAY -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-section">
+            <div class="sidebar-title">🌐 مواقعنا الأخرى</div>
+            <a class="sidebar-link" href="https://ahmdhlaq031-design.github.io/Developer-Hub/" target="_blank">
+                <span class="s-icon">🚀</span> Developer Hub
+            </a>
+            <a class="sidebar-link" href="https://ahmdhlaq031-design.github.io/Smart-Free-tools-/" target="_blank">
+                <span class="s-icon">🛠️</span> الأدوات الذكية
+            </a>
+            <a class="sidebar-link" href="https://ahmdhlaq031-design.github.io/Ev_Genaral_zero/" target="_blank">
+                <span class="s-icon">⚔️</span> لعبة جنرال
+            </a>
+            <a class="sidebar-link" href="https://ahmdhlaq031-design.github.io/Gamerenger5/" target="_blank">
+                <span class="s-icon">🎮</span> مركز الألعاب
+            </a>
+            <a class="sidebar-link" href="https://ahmdhlaq031-design.github.io/Seel/" target="_blank">
+                <span class="s-icon">🛒</span> المتجر
+            </a>
+        </div>
+
+        <div class="sidebar-divider"></div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-title">💰 دعم المطور</div>
+            <div class="donate-box">
+                <p style="font-weight:700; margin-bottom:8px;">💎 العملات الرقمية</p>
+                <p style="font-size:0.7rem;">Bitcoin (BTC)</p>
+                <div class="crypto-address">bc1qyamlrentlllxrlwrlp3jkapw6n8tna2llxta49</div>
+                <button class="btn-sm btn-gold" onclick="copyBTC()">📋 نسخ عنوان BTC</button>
+                
+                <p style="font-size:0.7rem; margin-top:10px;">Ethereum (ETH)</p>
+                <div class="crypto-address">0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb5</div>
+                <button class="btn-sm btn-primary-sm" onclick="copyETH()">📋 نسخ عنوان ETH</button>
+            </div>
+        </div>
+
+        <div class="sidebar-divider"></div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-title">ℹ️ عن المحرر</div>
+            <div class="donate-box" style="border-color: var(--border-color);">
+                <p><strong>🎬 General Fix Editor</strong></p>
+                <p style="font-size:0.75rem;">محرر وسائط متكامل</p>
+                <p style="font-size:0.7rem; margin-top:6px;">👨‍💻 General Fix Team</p>
+                <p style="font-size:0.7rem;">📅 2025 - 2026</p>
+                <p style="font-size:0.7rem;">📱 يعمل بدون إنترنت</p>
+                <p style="font-size:0.7rem;">📧 ahmdhlaq031@gmail.com</p>
+            </div>
+        </div>
+    </aside>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="logo">
+            <span class="logo-icon">🎬</span>
+            <span class="logo-text">General Fix Editor</span>
+        </div>
+        <button class="menu-btn" id="menuBtn" onclick="toggleSidebar()" aria-label="القائمة">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <!-- MAIN -->
+    <main class="main-content">
+        <div class="hero">
+            <h1>🎬 المحرر الأسطوري</h1>
+            <p>محرر صور، فيديو، وصوت - مجاني ١٠٠٪</p>
+        </div>
+
+        <!-- TAB SWITCHER -->
+        <div class="tab-switcher">
+            <button class="tab-btn active" onclick="switchTab('image')">📷 صور</button>
+            <button class="tab-btn" onclick="switchTab('video')">🎥 فيديو</button>
+            <button class="tab-btn" onclick="switchTab('audio')">🎵 صوت</button>
+        </div>
+
+        <!-- EDITOR CONTAINER -->
+        <div class="editor-container">
+            <!-- IMAGE TAB -->
+            <div id="tab-image">
+                <div class="upload-area" onclick="document.getElementById('imageInput').click()">
+                    <div class="upload-icon">📷</div>
+                    <p>اضغط لرفع صورة أو اسحب وأفلت</p>
+                    <p style="font-size:0.75rem;color:var(--text-muted);">PNG, JPG, GIF, WebP</p>
+                </div>
+                <input type="file" id="imageInput" accept="image/*" onchange="loadImage(event)">
+                
+                <div class="canvas-wrapper" id="imageCanvasWrapper" style="display:none;">
+                    <canvas id="imageCanvas"></canvas>
+                </div>
+
+                <div id="imageControls" style="display:none;">
+                    <div class="slider-group">
+                        <label>🔆 سطوع: <span id="brightnessVal">100%</span></label>
+                        <input type="range" id="brightness" min="0" max="200" value="100" oninput="updateImage()">
+                    </div>
+                    <div class="slider-group">
+                        <label>🌓 تباين: <span id="contrastVal">100%</span></label>
+                        <input type="range" id="contrast" min="0" max="200" value="100" oninput="updateImage()">
+                    </div>
+                    <div class="slider-group">
+                        <label>🎨 تشبع: <span id="saturationVal">100%</span></label>
+                        <input type="range" id="saturation" min="0" max="200" value="100" oninput="updateImage()">
+                    </div>
+                    <div class="slider-group">
+                        <label>🌡️ درجة حرارة: <span id="temperatureVal">0</span></label>
+                        <input type="range" id="temperature" min="-100" max="100" value="0" oninput="updateImage()">
+                    </div>
+
+                    <p style="font-size:0.8rem;color:var(--text-muted);margin:10px 0;">🎨 فلاتر سريعة:</p>
+                    <div class="filter-grid">
+                        <div class="filter-preset" onclick="applyFilter('normal')"><div class="preview" style="background:#888;"></div>طبيعي</div>
+                        <div class="filter-preset" onclick="applyFilter('grayscale')"><div class="preview" style="background:#999;"></div>أبيض/أسود</div>
+                        <div class="filter-preset" onclick="applyFilter('sepia')"><div class="preview" style="background:#b8a078;"></div>سيبيا</div>
+                        <div class="filter-preset" onclick="applyFilter('invert')"><div class="preview" style="background:#5566cc;"></div>نيغاتيف</div>
+                        <div class="filter-preset" onclick="applyFilter('vintage')"><div class="preview" style="background:#c4a882;"></div>عتيق</div>
+                        <div class="filter-preset" onclick="applyFilter('cool')"><div class="preview" style="background:#6688cc;"></div>بارد</div>
+                        <div class="filter-preset" onclick="applyFilter('warm')"><div class="preview" style="background:#cc8866;"></div>دافئ</div>
+                        <div class="filter-preset" onclick="applyFilter('dramatic')"><div class="preview" style="background:#445566;"></div>درامي</div>
+                    </div>
+
+                    <div class="controls-row">
+                        <button class="btn btn-outline" onclick="rotateImage(-90)">↩️ تدوير</button>
+                        <button class="btn btn-outline" onclick="flipImage('horizontal')">🪞 قلب أفقي</button>
+                        <button class="btn btn-outline" onclick="flipImage('vertical')">🪞 قلب عمودي</button>
+                        <button class="btn btn-success" onclick="downloadImage()">📥 تحميل</button>
+                        <button class="btn btn-danger" onclick="resetImage()">🔄 إعادة</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIDEO TAB -->
+            <div id="tab-video" class="hidden">
+                <div class="upload-area" onclick="document.getElementById('videoInput').click()">
+                    <div class="upload-icon">🎥</div>
+                    <p>اضغط لرفع فيديو</p>
+                    <p style="font-size:0.75rem;color:var(--text-muted);">MP4, WebM</p>
+                </div>
+                <input type="file" id="videoInput" accept="video/*" onchange="loadVideo(event)">
+                
+                <div id="videoPreview" style="display:none;">
+                    <video id="videoElement" controls style="width:100%;max-width:600px;display:block;margin:0 auto;border-radius:16px;"></video>
+                    <div class="controls-row" style="margin-top:15px;">
+                        <button class="btn btn-outline" onclick="toggleVideoPlay()">▶️ تشغيل/إيقاف</button>
+                        <button class="btn btn-outline" onclick="captureVideoFrame()">📸 التقاط إطار</button>
+                        <button class="btn btn-danger" onclick="resetVideo()">🔄 إعادة</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AUDIO TAB -->
+            <div id="tab-audio" class="hidden">
+                <div class="upload-area" onclick="document.getElementById('audioInput').click()">
+                    <div class="upload-icon">🎵</div>
+                    <p>اضغط لرفع ملف صوتي</p>
+                    <p style="font-size:0.75rem;color:var(--text-muted);">MP3, WAV, OGG</p>
+                </div>
+                <input type="file" id="audioInput" accept="audio/*" onchange="loadAudio(event)">
+                
+                <div id="audioPreview" style="display:none;">
+                    <audio id="audioElement" controls style="width:100%;display:block;margin:0 auto;"></audio>
+                    <p style="text-align:center;color:var(--text-muted);margin-top:10px;">🎵 يمكنك تشغيل الملف الصوتي والتحكم به من خلال المشغل أعلاه</p>
+                    <div class="controls-row" style="margin-top:15px;">
+                        <button class="btn btn-outline" onclick="toggleAudioPlay()">▶️ تشغيل/إيقاف</button>
+                        <button class="btn btn-danger" onclick="resetAudio()">🔄 إعادة</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ==================== SIDEBAR ====================
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const menuBtn = document.getElementById('menuBtn');
+            const isOpen = sidebar.classList.contains('open');
+            
+            if (isOpen) {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('active');
+                menuBtn.classList.remove('active');
+            } else {
+                sidebar.classList.add('open');
+                overlay.classList.add('active');
+                menuBtn.classList.add('active');
+            }
+        }
+
+        function closeSidebar() {
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('sidebarOverlay').classList.remove('active');
+            document.getElementById('menuBtn').classList.remove('active');
+        }
+
+        // ==================== TAB SWITCHING ====================
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            document.getElementById('tab-image').classList.add('hidden');
+            document.getElementById('tab-video').classList.add('hidden');
+            document.getElementById('tab-audio').classList.add('hidden');
+            
+            document.getElementById('tab-' + tab).classList.remove('hidden');
+        }
+
+        // ==================== TOAST ====================
+        function showToast(msg, isError = false) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.toggle('error', isError);
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2800);
+        }
+
+        // ==================== COPY FUNCTIONS ====================
+        function copyBTC() {
+            navigator.clipboard.writeText('bc1qyamlrentlllxrlwrlp3jkapw6n8tna2llxta49')
+                .then(() => showToast('✅ تم نسخ عنوان BTC'));
+        }
+
+        function copyETH() {
+            navigator.clipboard.writeText('0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb5')
+                .then(() => showToast('✅ تم نسخ عنوان ETH'));
+        }
+
+        // ==================== IMAGE EDITOR ====================
+        let originalImage = null;
+        let currentFilter = 'normal';
+
+        function loadImage(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    originalImage = img;
+                    document.getElementById('imageCanvasWrapper').style.display = 'flex';
+                    document.getElementById('imageControls').style.display = 'block';
+                    document.querySelector('#tab-image .upload-area').style.display = 'none';
+                    currentFilter = 'normal';
+                    resetSliders();
+                    updateImage();
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function resetSliders() {
+            document.getElementById('brightness').value = 100;
+            document.getElementById('contrast').value = 100;
+            document.getElementById('saturation').value = 100;
+            document.getElementById('temperature').value = 0;
+            document.getElementById('brightnessVal').textContent = '100%';
+            document.getElementById('contrastVal').textContent = '100%';
+            document.getElementById('saturationVal').textContent = '100%';
+            document.getElementById('temperatureVal').textContent = '0';
+        }
+
+        function applyFilter(filter) {
+            currentFilter = filter;
+            resetSliders();
+            updateImage();
+            showToast('🎨 تم تطبيق الفلتر: ' + filter);
+        }
+
+        function updateImage() {
+            if (!originalImage) return;
+            
+            const canvas = document.getElementById('imageCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            const maxWidth = Math.min(600, window.innerWidth - 60);
+            const ratio = maxWidth / originalImage.width;
+            canvas.width = maxWidth;
+            canvas.height = originalImage.height * ratio;
+            
+            // Apply filters
+            const brightness = document.getElementById('brightness').value / 100;
+            const contrast = document.getElementById('contrast').value / 100;
+            const saturation = document.getElementById('saturation').value / 100;
+            const temperature = parseInt(document.getElementById('temperature').value);
+            
+            document.getElementById('brightnessVal').textContent = Math.round(brightness * 100) + '%';
+            document.getElementById('contrastVal').textContent = Math.round(contrast * 100) + '%';
+            document.getElementById('saturationVal').textContent = Math.round(saturation * 100) + '%';
+            document.getElementById('temperatureVal').textContent = temperature;
+            
+            ctx.filter = `brightness(${brightness}) contrast(${contrast}) saturate(${saturation})`;
+            
+            // Apply special filters
+            switch(currentFilter) {
+                case 'grayscale':
+                    ctx.filter += ' grayscale(1)';
+                    break;
+                case 'sepia':
+                    ctx.filter += ' sepia(0.8)';
+                    break;
+                case 'invert':
+                    ctx.filter += ' invert(1)';
+                    break;
+                case 'vintage':
+                    ctx.filter += ' sepia(0.4) contrast(1.1) brightness(0.9)';
+                    break;
+                case 'cool':
+                    ctx.filter += ' hue-rotate(30deg)';
+                    break;
+                case 'warm':
+                    ctx.filter += ' hue-rotate(-30deg) saturate(1.3)';
+                    break;
+                case 'dramatic':
+                    ctx.filter += ' contrast(1.4) brightness(0.8) saturate(0.8)';
+                    break;
+            }
+            
+            ctx.drawImage(originalImage, 0, 0, canvas.width, canvas.height);
+            
+            // Temperature adjustment (after draw)
+            if (temperature !== 0) {
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const data = imageData.data;
+                for (let i = 0; i < data.length; i += 4) {
+                    data[i] = Math.min(255, data[i] + temperature);     // Red
+                    data[i+2] = Math.min(255, data[i+2] - temperature); // Blue
+                }
+                ctx.putImageData(imageData, 0, 0);
+            }
+        }
+
+        function rotateImage(degrees) {
+            if (!originalImage) return;
+            const canvas = document.getElementById('imageCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = canvas.height;
+            tempCanvas.height = canvas.width;
+            const tempCtx = tempCanvas.getContext('2d');
+            
+            tempCtx.translate(tempCanvas.width / 2, tempCanvas.height / 2);
+            tempCtx.rotate(degrees * Math.PI / 180);
+            tempCtx.drawImage(canvas, -canvas.width / 2, -canvas.height / 2);
+            
+            canvas.width = tempCanvas.width;
+            canvas.height = tempCanvas.height;
+            ctx.drawImage(tempCanvas, 0, 0);
+            showToast('✅ تم التدوير');
+        }
+
+        function flipImage(direction) {
+            if (!originalImage) return;
+            const canvas = document.getElementById('imageCanvas');
+            const ctx = canvas.getContext('2d');
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            
+            ctx.save();
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            if (direction === 'horizontal') {
+                ctx.scale(-1, 1);
+                ctx.drawImage(canvas, -canvas.width, 0);
+            } else {
+                ctx.scale(1, -1);
+                ctx.drawImage(canvas, 0, -canvas.height);
+            }
+            ctx.restore();
+            showToast('✅ تم القلب');
+        }
+
+        function downloadImage() {
+            const canvas = document.getElementById('imageCanvas');
+            const link = document.createElement('a');
+            link.download = 'general-fix-edited-image.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            showToast('📥 تم تحميل الصورة');
+        }
+
+        function resetImage() {
+            originalImage = null;
+            currentFilter = 'normal';
+            document.getElementById('imageCanvasWrapper').style.display = 'none';
+            document.getElementById('imageControls').style.display = 'none';
+            document.querySelector('#tab-image .upload-area').style.display = 'block';
+            document.getElementById('imageInput').value = '';
+            resetSliders();
+            showToast('🔄 تمت إعادة التعيين');
+        }
+
+        // ==================== VIDEO TOOLS ====================
+        function loadVideo(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const url = URL.createObjectURL(file);
+            const video = document.getElementById('videoElement');
+            video.src = url;
+            document.getElementById('videoPreview').style.display = 'block';
+            document.querySelector('#tab-video .upload-area').style.display = 'none';
+            showToast('🎥 تم تحميل الفيديو');
+        }
+
+        function toggleVideoPlay() {
+            const video = document.getElementById('videoElement');
+            if (video.paused) video.play();
+            else video.pause();
+        }
+
+        function captureVideoFrame() {
+            const video = document.getElementById('videoElement');
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0);
+            
+            // Set as image for editing
+            const img = new Image();
+            img.onload = function() {
+                originalImage = img;
+                switchTab('image');
+                document.getElementById('imageCanvasWrapper').style.display = 'flex';
+                document.getElementById('imageControls').style.display = 'block';
+                document.querySelector('#tab-image .upload-area').style.display = 'none';
+                resetSliders();
+                updateImage();
+            };
+            img.src = canvas.toDataURL();
+            showToast('📸 تم التقاط الإطار! انتقل لتبويب الصور');
+        }
+
+        function resetVideo() {
+            const video = document.getElementById('videoElement');
+            video.src = '';
+            document.getElementById('videoPreview').style.display = 'none';
+            document.querySelector('#tab-video .upload-area').style.display = 'block';
+            document.getElementById('videoInput').value = '';
+            showToast('🔄 تمت إعادة التعيين');
+        }
+
+        // ==================== AUDIO TOOLS ====================
+        function loadAudio(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const url = URL.createObjectURL(file);
+            const audio = document.getElementById('audioElement');
+            audio.src = url;
+            document.getElementById('audioPreview').style.display = 'block';
+            document.querySelector('#tab-audio .upload-area').style.display = 'none';
+            showToast('🎵 تم تحميل الملف الصوتي');
+        }
+
+        function toggleAudioPlay() {
+            const audio = document.getElementById('audioElement');
+            if (audio.paused) audio.play();
+            else audio.pause();
+        }
+
+        function resetAudio() {
+            const audio = document.getElementById('audioElement');
+            audio.src = '';
+            document.getElementById('audioPreview').style.display = 'none';
+            document.querySelector('#tab-audio .upload-area').style.display = 'block';
+            document.getElementById('audioInput').value = '';
+            showToast('🔄 تمت إعادة التعيين');
+        }
+
+        // ==================== PWA SERVICE WORKER ====================
+        if ('serviceWorker' in navigator) {
+            const swCode = `
+                const CACHE_NAME = 'general-fix-editor-v1';
+                const urlsToCache = ['.'];
+                
+                self.addEventListener('install', event => {
+                    event.waitUntil(
+                        caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
+                    );
+                });
+                
+                self.addEventListener('fetch', event => {
+                    event.respondWith(
+                        caches.match(event.request).then(response => response || fetch(event.request))
+                    );
+                });
+            `;
+            
+            const blob = new Blob([swCode], { type: 'application/javascript' });
+            const swUrl = URL.createObjectURL(blob);
+            
+            navigator.serviceWorker.register(swUrl)
+                .then(() => console.log('✅ PWA Service Worker Registered'))
+                .catch(err => console.log('Service Worker skipped:', err));
+        }
+
+        // ==================== KEYBOARD SHORTCUTS ====================
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeSidebar();
+        });
+
+        // ==================== INIT ====================
+        console.log('🎬 General Fix Editor - المحرر الأسطوري');
+        console.log('👨‍💻 Developed by General Fix Team');
+        console.log('📱 PWA Ready | 📷 Images | 🎥 Video | 🎵 Audio');
+        console.log('💡 مجاني 100% | بدون سيرفر | بدون API');
+    </script>
+</body>
+</html>
