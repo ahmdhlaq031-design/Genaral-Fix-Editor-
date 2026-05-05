@@ -6,27 +6,31 @@
     <meta name="theme-color" content="#6366f1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="description" content="General Fix Editor - محرر وسائط متكامل للصور والفيديو والصوت">
-    <title>🎬 General Fix Editor | المحرر الأسطوري</title>
-    
+    <meta name="description" content="General Fix Editor - المحرر الأسطوري للصور والفيديو والصوت">
+    <title>🎬 General Fix Editor | المحرر الأسطوري الكامل</title>
+
     <!-- PWA Manifest -->
-    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkdlbmVyYWwgRml4IEVkaXRvciIsCiAgInNob3J0X25hbWUiOiAiR0YgRWRpdG9yIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMwYTBmMWEiLAogICJ0aGVtZV9jb2xvciI6ICIjNjM2NmYxIiwKICAiaWNvbnMiOiBbewogICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lJSEJ5WlhObGNuWmxRWE5sY25Oa1BTSXdJREFnT20xbGNtMWxjaUE4TDNOMlp6ND0iLAogICAgInNpemVzIjogIjE5MngxOTIiLAogICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogIH1dfQ==">
-    
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkdlbmVyYWwgRml4IEVkaXRvciIsCiAgInNob3J0X25hbWUiOiAiR0YgRWRpdG9yIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMwYTBmMWEiLAogICJ0aGVtZV9jb2xvciI6ICIjNjM2NmYxIiwKICAiaWNvbnMiOiBbewogICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lJSEJ5WlhObGNuWmxRWE5sY25Oa1BTSXdJREFnT20xbGNtMWxjaUE4TDNOMlp6ND0iLAogICAgInNpemVzIjogIjUxMng1MTIiLAogICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogIH1dfQ==">
+
     <style>
         :root {
             --bg-primary: #0a0f1a;
             --bg-secondary: #111827;
             --bg-card: rgba(17, 24, 39, 0.95);
             --bg-input: #1a2235;
+            --bg-toolbar: #0d1520;
             --text-primary: #e2e8f0;
             --text-secondary: #b0bec5;
             --text-muted: #78909c;
             --border-color: rgba(148, 163, 184, 0.12);
+            --border-light: rgba(148, 163, 184, 0.2);
             --primary: #6366f1;
             --primary-dark: #4f46e5;
             --primary-light: #818cf8;
             --primary-glow: rgba(99, 102, 241, 0.35);
             --accent: #06b6d4;
+            --accent-glow: rgba(6, 182, 212, 0.3);
+            --purple: #8b5cf6;
             --success: #10b981;
             --danger: #ef4444;
             --warning: #f59e0b;
@@ -34,12 +38,15 @@
             --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
             --shadow-md: 0 8px 30px rgba(0,0,0,0.5);
             --shadow-lg: 0 20px 60px rgba(0,0,0,0.6);
+            --shadow-xl: 0 30px 80px rgba(0,0,0,0.7);
             --shadow-glow: 0 0 40px var(--primary-glow);
             --radius-sm: 8px;
             --radius-md: 16px;
             --radius-lg: 24px;
             --radius-xl: 32px;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-fast: all 0.15s ease;
+            --font-mono: 'JetBrains Mono', 'Consolas', 'Courier New', monospace;
         }
 
         * {
@@ -60,22 +67,37 @@
             position: relative;
         }
 
+        /* خلفية متحركة */
         body::before {
             content: '';
             position: fixed;
             inset: 0;
             background: 
-                radial-gradient(ellipse at 20% 20%, var(--primary-glow), transparent 50%),
-                radial-gradient(ellipse at 80% 60%, rgba(6, 182, 212, 0.15), transparent 50%),
-                radial-gradient(ellipse at 50% 80%, rgba(139, 92, 246, 0.1), transparent 50%);
-            z-index: -1;
+                radial-gradient(ellipse at 15% 25%, var(--primary-glow), transparent 50%),
+                radial-gradient(ellipse at 85% 65%, var(--accent-glow), transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(139, 92, 246, 0.1), transparent 60%);
+            z-index: -2;
             pointer-events: none;
-            animation: bgFloat 15s ease-in-out infinite alternate;
+            animation: bgFloat 18s ease-in-out infinite alternate;
         }
 
         @keyframes bgFloat {
             0% { opacity: 0.7; transform: scale(1); }
-            100% { opacity: 1; transform: scale(1.03); }
+            100% { opacity: 1; transform: scale(1.04); }
+        }
+
+        /* شبكة خلفية */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: 
+                linear-gradient(var(--border-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.3;
         }
 
         /* ========== SIDEBAR OVERLAY ========== */
@@ -83,8 +105,8 @@
             position: fixed;
             inset: 0;
             background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             z-index: 1000;
             opacity: 0;
             visibility: hidden;
@@ -99,30 +121,26 @@
         .sidebar {
             position: fixed;
             top: 0;
-            right: -380px;
-            width: 340px;
+            right: -400px;
+            width: 350px;
             height: 100vh;
             height: 100dvh;
-            background: rgba(10, 15, 26, 0.98);
-            backdrop-filter: blur(40px);
-            -webkit-backdrop-filter: blur(40px);
+            background: rgba(8, 12, 22, 0.98);
+            backdrop-filter: blur(45px);
+            -webkit-backdrop-filter: blur(45px);
             border-left: 1px solid var(--border-color);
             z-index: 1100;
-            padding: 80px 18px 30px;
-            transition: right 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            padding: 85px 18px 35px;
+            transition: right 0.45s cubic-bezier(0.2, 0.9, 0.4, 1.1);
             overflow-y: auto;
-            box-shadow: var(--shadow-lg);
+            box-shadow: var(--shadow-xl);
         }
-        .sidebar.open {
-            right: 0;
-        }
+        .sidebar.open { right: 0; }
 
-        .sidebar-section {
-            margin-bottom: 25px;
-        }
+        .sidebar-section { margin-bottom: 25px; }
 
         .sidebar-title {
-            font-size: 0.68rem;
+            font-size: 0.65rem;
             font-weight: 900;
             color: var(--gold);
             letter-spacing: 3px;
@@ -136,7 +154,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 12px 15px;
+            padding: 12px 16px;
             border-radius: var(--radius-md);
             text-decoration: none;
             color: var(--text-secondary);
@@ -146,25 +164,39 @@
             cursor: pointer;
             border: 1.5px solid transparent;
             margin-bottom: 5px;
+            position: relative;
+            overflow: hidden;
         }
 
+        .sidebar-link::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            opacity: 0;
+            transition: var(--transition);
+            border-radius: var(--radius-md);
+        }
+
+        .sidebar-link:hover::before { opacity: 0.1; }
         .sidebar-link:hover {
-            background: rgba(99, 102, 241, 0.15);
-            border-color: rgba(99, 102, 241, 0.3);
             color: white;
-            transform: translateX(-5px);
+            border-color: var(--border-light);
+            transform: translateX(-6px);
         }
 
         .sidebar-link .s-icon {
-            width: 38px;
-            height: 38px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             background: var(--bg-secondary);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             flex-shrink: 0;
+            position: relative;
+            z-index: 1;
         }
 
         .sidebar-divider {
@@ -174,60 +206,52 @@
         }
 
         .donate-box {
-            background: rgba(251, 191, 36, 0.08);
-            border: 1px solid rgba(251, 191, 36, 0.25);
+            background: rgba(251, 191, 36, 0.05);
+            border: 1px solid rgba(251, 191, 36, 0.2);
             border-radius: var(--radius-lg);
-            padding: 16px;
+            padding: 18px;
             text-align: center;
             font-size: 0.8rem;
             color: var(--text-muted);
         }
 
-        .donate-box strong {
-            color: var(--gold);
-        }
+        .donate-box strong { color: var(--gold); }
 
         .crypto-address {
             background: var(--bg-input);
-            padding: 8px;
-            border-radius: 8px;
-            font-family: monospace;
-            font-size: 0.65rem;
+            padding: 10px;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-mono);
+            font-size: 0.62rem;
             word-break: break-all;
             direction: ltr;
             text-align: left;
             margin: 8px 0;
             color: var(--text-secondary);
+            border: 1px solid var(--border-color);
         }
 
-        .btn-sm {
-            padding: 7px 14px;
-            border-radius: 20px;
+        .btn-xs {
+            padding: 8px 16px;
+            border-radius: 22px;
             font-weight: 700;
-            font-size: 0.72rem;
+            font-size: 0.7rem;
             cursor: pointer;
             transition: var(--transition);
             border: none;
             font-family: inherit;
             width: 100%;
-            margin-top: 5px;
+            margin-top: 6px;
         }
 
-        .btn-gold {
-            background: linear-gradient(135deg, #fbbf24, #f59e0b);
-            color: #1a1a0a;
-        }
-
-        .btn-primary-sm {
-            background: var(--primary);
-            color: white;
-        }
+        .btn-gold { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #1a1a0a; }
+        .btn-purple { background: var(--purple); color: white; }
 
         /* ========== HEADER ========== */
         .header {
-            background: rgba(10, 15, 26, 0.95);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
+            background: rgba(10, 15, 26, 0.96);
+            backdrop-filter: blur(35px);
+            -webkit-backdrop-filter: blur(35px);
             border-bottom: 1px solid var(--border-color);
             padding: 12px 18px;
             display: flex;
@@ -239,25 +263,22 @@
             box-shadow: var(--shadow-sm);
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.2rem;
-            font-weight: 900;
-        }
+        .logo-group { display: flex; align-items: center; gap: 10px; }
 
         .logo-icon {
-            font-size: 1.8rem;
+            font-size: 2rem;
             animation: logoPulse 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 15px var(--primary-glow));
         }
 
         @keyframes logoPulse {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.15); }
+            50% { transform: scale(1.2); }
         }
 
         .logo-text {
+            font-size: 1.3rem;
+            font-weight: 900;
             background: linear-gradient(135deg, #6366f1, #06b6d4, #8b5cf6);
             background-size: 200% 200%;
             -webkit-background-clip: text;
@@ -272,10 +293,10 @@
         }
 
         .menu-btn {
-            width: 44px;
-            height: 44px;
+            width: 46px;
+            height: 46px;
             border-radius: 14px;
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--purple));
             border: none;
             display: flex;
             flex-direction: column;
@@ -285,13 +306,11 @@
             cursor: pointer;
             transition: var(--transition);
             z-index: 600;
-            box-shadow: 0 4px 15px var(--primary-glow);
+            box-shadow: 0 4px 20px var(--primary-glow);
         }
 
-        .menu-btn:hover {
-            background: var(--primary-dark);
-            transform: scale(1.06);
-        }
+        .menu-btn:hover { transform: scale(1.08); box-shadow: 0 6px 30px var(--primary-glow); }
+        .menu-btn:active { transform: scale(0.9); }
 
         .menu-btn span {
             display: block;
@@ -299,45 +318,32 @@
             height: 2.5px;
             border-radius: 3px;
             background: white;
-            transition: var(--transition);
+            transition: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
 
-        .menu-btn.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-        .menu-btn.active span:nth-child(2) {
-            opacity: 0;
-        }
-        .menu-btn.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(5px, -5px);
-        }
+        .menu-btn.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .menu-btn.active span:nth-child(2) { opacity: 0; transform: scale(0); }
+        .menu-btn.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 
         /* ========== MAIN CONTENT ========== */
         .main-content {
-            padding: 20px 16px 40px;
-            max-width: 900px;
+            padding: 15px 12px 50px;
+            max-width: 1000px;
             margin: 0 auto;
         }
 
-        .hero {
-            text-align: center;
-            padding: 20px 0 10px;
-        }
+        .hero { text-align: center; padding: 15px 0 5px; }
 
         .hero h1 {
-            font-size: clamp(1.6rem, 4vw, 2.2rem);
+            font-size: clamp(1.5rem, 4vw, 2rem);
             font-weight: 900;
-            background: linear-gradient(135deg, #6366f1, #06b6d4);
+            background: linear-gradient(135deg, var(--primary-light), var(--accent), var(--gold));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        .hero p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-top: 5px;
-        }
+        .hero p { color: var(--text-muted); font-size: 0.85rem; margin-top: 4px; }
 
         /* ========== TAB SWITCHER ========== */
         .tab-switcher {
@@ -345,27 +351,27 @@
             gap: 8px;
             flex-wrap: wrap;
             justify-content: center;
-            margin: 20px 0;
+            margin: 18px 0;
         }
 
         .tab-btn {
-            padding: 10px 20px;
+            padding: 10px 18px;
             border-radius: 30px;
             background: var(--bg-card);
             border: 1.5px solid var(--border-color);
             color: var(--text-secondary);
             cursor: pointer;
             font-weight: 700;
-            font-size: 0.82rem;
+            font-size: 0.8rem;
             transition: var(--transition);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(15px);
             display: flex;
             align-items: center;
             gap: 6px;
         }
 
         .tab-btn.active {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--purple));
             color: white;
             border-color: transparent;
             box-shadow: var(--shadow-glow);
@@ -374,136 +380,152 @@
         .tab-btn:hover:not(.active) {
             border-color: var(--primary);
             color: var(--primary-light);
+            transform: translateY(-2px);
         }
 
-        /* ========== EDITOR AREA ========== */
+        /* ========== EDITOR CONTAINER ========== */
         .editor-container {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-xl);
             padding: 20px;
-            backdrop-filter: blur(30px);
+            backdrop-filter: blur(35px);
+            -webkit-backdrop-filter: blur(35px);
             box-shadow: var(--shadow-md);
         }
 
+        /* ========== TOOLBAR ========== */
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding: 10px;
+            background: var(--bg-toolbar);
+            border-radius: var(--radius-md);
+            margin-bottom: 15px;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .tool-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: transparent;
+            border: 1px solid transparent;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            position: relative;
+        }
+
+        .tool-btn:hover {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .tool-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .tool-btn .tooltip {
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.65rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+            z-index: 10;
+        }
+
+        .tool-btn:hover .tooltip { opacity: 1; bottom: -30px; }
+
+        /* ========== CANVAS AREA ========== */
         .canvas-wrapper {
             position: relative;
             width: 100%;
-            max-width: 600px;
-            margin: 0 auto 20px;
+            max-width: 700px;
+            margin: 0 auto 15px;
             border-radius: var(--radius-lg);
             overflow: hidden;
             border: 2px solid var(--border-color);
             background: #000;
-            min-height: 300px;
+            min-height: 250px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        canvas {
-            max-width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        video {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            border-radius: var(--radius-lg);
-        }
-
-        audio {
-            width: 100%;
-            margin: 15px 0;
-        }
+        canvas { max-width: 100%; height: auto; display: block; }
+        video { max-width: 100%; height: auto; display: block; border-radius: var(--radius-lg); }
+        audio { width: 100%; margin: 15px 0; }
 
         .upload-area {
             border: 2px dashed var(--border-color);
             border-radius: var(--radius-lg);
-            padding: 40px 20px;
+            padding: 35px 20px;
             text-align: center;
             cursor: pointer;
             transition: var(--transition);
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            background: rgba(255,255,255,0.01);
         }
 
         .upload-area:hover {
             border-color: var(--primary);
             background: rgba(99, 102, 241, 0.05);
-        }
-
-        .upload-icon {
-            font-size: 3rem;
-            margin-bottom: 10px;
-        }
-
-        .controls-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-            margin: 15px 0;
-        }
-
-        .btn {
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition);
-            border: none;
-            font-family: inherit;
-            font-size: 0.82rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-            box-shadow: 0 4px 15px var(--primary-glow);
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-dark);
             transform: translateY(-2px);
         }
 
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--border-color);
-            color: var(--text-secondary);
+        .upload-icon { font-size: 3rem; margin-bottom: 8px; }
+
+        /* ========== CONTROLS ========== */
+        .controls-section {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid var(--border-color);
         }
 
-        .btn-outline:hover {
-            border-color: var(--primary);
+        .controls-section h3 {
+            font-size: 0.85rem;
+            margin-bottom: 12px;
             color: var(--primary-light);
-        }
-
-        .btn-danger {
-            background: var(--danger);
-            color: white;
-        }
-
-        .btn-success {
-            background: var(--success);
-            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .slider-group {
             display: flex;
             flex-direction: column;
-            gap: 5px;
-            margin: 10px 0;
+            gap: 4px;
+            margin: 8px 0;
         }
 
         .slider-group label {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 600;
             color: var(--text-secondary);
+            display: flex;
+            justify-content: space-between;
         }
 
         input[type="range"] {
@@ -517,8 +539,8 @@
 
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 24px;
-            height: 24px;
+            width: 26px;
+            height: 26px;
             border-radius: 50%;
             background: var(--primary);
             cursor: pointer;
@@ -526,36 +548,60 @@
             box-shadow: var(--shadow-sm);
         }
 
-        input[type="file"] {
-            display: none;
+        .btn-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin: 10px 0;
         }
 
-        select {
-            width: 100%;
-            padding: 10px;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--border-color);
-            background: var(--bg-input);
-            color: var(--text-primary);
+        .btn {
+            padding: 10px 18px;
+            border-radius: 28px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
             font-family: inherit;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
         }
 
+        .btn:active { transform: scale(0.93); }
+
+        .btn-primary { background: linear-gradient(135deg, var(--primary), var(--purple)); color: white; box-shadow: 0 4px 18px var(--primary-glow); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--primary-glow); }
+
+        .btn-outline { background: transparent; border: 2px solid var(--border-color); color: var(--text-secondary); }
+        .btn-outline:hover { border-color: var(--primary); color: var(--primary-light); background: rgba(99, 102, 241, 0.08); }
+
+        .btn-success { background: var(--success); color: white; }
+        .btn-danger { background: var(--danger); color: white; }
+        .btn-accent { background: var(--accent); color: white; }
+        .btn-warning { background: var(--warning); color: #1a1a0a; }
+
+        .btn-sm { padding: 7px 14px; font-size: 0.72rem; border-radius: 20px; }
+
+        /* ========== FILTERS GRID ========== */
         .filter-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
             gap: 8px;
-            margin: 15px 0;
+            margin: 10px 0;
         }
 
         .filter-preset {
-            padding: 10px 8px;
+            padding: 10px 6px;
             border-radius: var(--radius-sm);
-            background: var(--bg-secondary);
+            background: var(--bg-input);
             border: 1px solid var(--border-color);
             cursor: pointer;
             text-align: center;
-            font-size: 0.7rem;
+            font-size: 0.68rem;
             font-weight: 600;
             transition: var(--transition);
             color: var(--text-secondary);
@@ -563,18 +609,88 @@
 
         .filter-preset:hover {
             border-color: var(--primary);
-            color: white;
             background: rgba(99, 102, 241, 0.2);
+            color: white;
+            transform: translateY(-3px);
         }
 
         .filter-preset .preview {
             width: 100%;
-            height: 40px;
+            height: 35px;
             border-radius: 4px;
-            margin-bottom: 5px;
-            background: linear-gradient(135deg, #6366f1, #06b6d4);
+            margin-bottom: 4px;
         }
 
+        /* ========== STICKER GRID ========== */
+        .sticker-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(55px, 1fr));
+            gap: 8px;
+            margin: 10px 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .sticker-item {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: var(--radius-sm);
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .sticker-item:hover {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.2);
+            transform: scale(1.08);
+        }
+
+        /* ========== TEXT INPUT ========== */
+        .text-input-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        input[type="text"], input[type="number"], select {
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+            background: var(--bg-input);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.82rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        input:focus, select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+        }
+
+        input[type="color"] {
+            width: 45px;
+            height: 40px;
+            border-radius: var(--radius-sm);
+            border: 2px solid var(--border-color);
+            cursor: pointer;
+            background: transparent;
+            padding: 2px;
+        }
+
+        input[type="file"] { display: none; }
+
+        .hidden { display: none !important; }
+
+        /* ========== TOAST ========== */
         .toast {
             position: fixed;
             bottom: 25px;
@@ -587,54 +703,35 @@
             font-weight: 700;
             z-index: 2000;
             opacity: 0;
-            transition: 0.3s ease;
+            transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
             pointer-events: none;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             box-shadow: var(--shadow-lg);
         }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .toast.error { background: var(--danger); }
 
-        .toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            .sidebar { width: 300px; right: -320px; }
+            .header { padding: 10px 12px; }
+            .logo-text { font-size: 1rem; }
+            .logo-icon { font-size: 1.5rem; }
+            .menu-btn { width: 40px; height: 40px; }
+            .tab-btn { padding: 8px 14px; font-size: 0.73rem; }
+            .btn { padding: 8px 14px; font-size: 0.73rem; }
+            .editor-container { padding: 12px; }
+            .canvas-wrapper { min-height: 200px; }
+            .tool-btn { width: 34px; height: 34px; font-size: 0.95rem; }
+            .tool-btn .tooltip { display: none; }
         }
 
-        .toast.error {
-            background: var(--danger);
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        @media (max-width: 600px) {
-            .sidebar {
-                width: 290px;
-                right: -310px;
-            }
-            .header {
-                padding: 10px 12px;
-            }
-            .logo-text {
-                font-size: 1rem;
-            }
-            .menu-btn {
-                width: 38px;
-                height: 38px;
-            }
-            .tab-btn {
-                padding: 8px 14px;
-                font-size: 0.75rem;
-            }
-            .btn {
-                padding: 8px 16px;
-                font-size: 0.75rem;
-            }
-            .editor-container {
-                padding: 14px;
-            }
-            .canvas-wrapper {
-                min-height: 200px;
-            }
+        @media (max-width: 400px) {
+            .sidebar { width: 275px; right: -290px; }
+            .tab-btn { padding: 6px 10px; font-size: 0.68rem; }
+            .btn { padding: 7px 12px; font-size: 0.7rem; }
+            .filter-grid { grid-template-columns: repeat(auto-fill, minmax(55px, 1fr)); }
+            .sticker-grid { grid-template-columns: repeat(auto-fill, minmax(42px, 1fr)); }
         }
     </style>
 </head>
@@ -669,14 +766,13 @@
         <div class="sidebar-section">
             <div class="sidebar-title">💰 دعم المطور</div>
             <div class="donate-box">
-                <p style="font-weight:700; margin-bottom:8px;">💎 العملات الرقمية</p>
-                <p style="font-size:0.7rem;">Bitcoin (BTC)</p>
+                <p style="font-weight:700; margin-bottom:6px;">💎 Bitcoin (BTC)</p>
                 <div class="crypto-address">bc1qyamlrentlllxrlwrlp3jkapw6n8tna2llxta49</div>
-                <button class="btn-sm btn-gold" onclick="copyBTC()">📋 نسخ عنوان BTC</button>
+                <button class="btn-xs btn-gold" onclick="copyBTC()">📋 نسخ عنوان BTC</button>
                 
-                <p style="font-size:0.7rem; margin-top:10px;">Ethereum (ETH)</p>
+                <p style="font-weight:700; margin:10px 0 6px;">💎 Ethereum (ETH)</p>
                 <div class="crypto-address">0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb5</div>
-                <button class="btn-sm btn-primary-sm" onclick="copyETH()">📋 نسخ عنوان ETH</button>
+                <button class="btn-xs btn-purple" onclick="copyETH()">📋 نسخ عنوان ETH</button>
             </div>
         </div>
 
@@ -686,18 +782,18 @@
             <div class="sidebar-title">ℹ️ عن المحرر</div>
             <div class="donate-box" style="border-color: var(--border-color);">
                 <p><strong>🎬 General Fix Editor</strong></p>
-                <p style="font-size:0.75rem;">محرر وسائط متكامل</p>
-                <p style="font-size:0.7rem; margin-top:6px;">👨‍💻 General Fix Team</p>
-                <p style="font-size:0.7rem;">📅 2025 - 2026</p>
-                <p style="font-size:0.7rem;">📱 يعمل بدون إنترنت</p>
-                <p style="font-size:0.7rem;">📧 ahmdhlaq031@gmail.com</p>
+                <p style="font-size:0.72rem;">المحرر الأسطوري للوسائط</p>
+                <p style="font-size:0.68rem; margin-top:6px;">👨‍💻 General Fix Team</p>
+                <p style="font-size:0.68rem;">📅 2025 - 2026</p>
+                <p style="font-size:0.68rem;">📱 يعمل بدون إنترنت</p>
+                <p style="font-size:0.68rem;">📧 ahmdhlaq031@gmail.com</p>
             </div>
         </div>
     </aside>
 
     <!-- HEADER -->
     <header class="header">
-        <div class="logo">
+        <div class="logo-group">
             <span class="logo-icon">🎬</span>
             <span class="logo-text">General Fix Editor</span>
         </div>
@@ -711,106 +807,209 @@
     <!-- MAIN -->
     <main class="main-content">
         <div class="hero">
-            <h1>🎬 المحرر الأسطوري</h1>
-            <p>محرر صور، فيديو، وصوت - مجاني ١٠٠٪</p>
+            <h1>🎬 المحرر الأسطوري الكامل</h1>
+            <p>📷 صور | 🎥 فيديو | 🎵 صوت | ✨ تأثيرات | 🎨 فلاتر | 📝 نصوص | 🎭 ملصقات</p>
         </div>
 
         <!-- TAB SWITCHER -->
         <div class="tab-switcher">
-            <button class="tab-btn active" onclick="switchTab('image')">📷 صور</button>
-            <button class="tab-btn" onclick="switchTab('video')">🎥 فيديو</button>
-            <button class="tab-btn" onclick="switchTab('audio')">🎵 صوت</button>
+            <button class="tab-btn active" onclick="switchTab('image')" id="tabBtn-image">📷 محرر الصور</button>
+            <button class="tab-btn" onclick="switchTab('video')" id="tabBtn-video">🎥 محرر الفيديو</button>
+            <button class="tab-btn" onclick="switchTab('audio')" id="tabBtn-audio">🎵 محرر الصوت</button>
         </div>
 
         <!-- EDITOR CONTAINER -->
         <div class="editor-container">
-            <!-- IMAGE TAB -->
+            <!-- ==================== IMAGE TAB ==================== -->
             <div id="tab-image">
-                <div class="upload-area" onclick="document.getElementById('imageInput').click()">
+                <div class="upload-area" id="imageUploadArea" onclick="document.getElementById('imageInput').click()">
                     <div class="upload-icon">📷</div>
-                    <p>اضغط لرفع صورة أو اسحب وأفلت</p>
-                    <p style="font-size:0.75rem;color:var(--text-muted);">PNG, JPG, GIF, WebP</p>
+                    <p style="font-weight:700;">اضغط لرفع صورة</p>
+                    <p style="font-size:0.75rem;color:var(--text-muted);">يدعم: PNG, JPG, GIF, WebP, SVG</p>
                 </div>
                 <input type="file" id="imageInput" accept="image/*" onchange="loadImage(event)">
-                
+
+                <!-- TOOLBAR -->
+                <div class="toolbar" id="imageToolbar" style="display:none;">
+                    <button class="tool-btn" onclick="setActiveTool('select')" id="tool-select" title="تحديد">
+                        👆<span class="tooltip">تحديد</span>
+                    </button>
+                    <button class="tool-btn" onclick="setActiveTool('text')" id="tool-text" title="إضافة نص">
+                        📝<span class="tooltip">نص</span>
+                    </button>
+                    <button class="tool-btn" onclick="setActiveTool('draw')" id="tool-draw" title="رسم">
+                        ✏️<span class="tooltip">رسم</span>
+                    </button>
+                    <button class="tool-btn" onclick="setActiveTool('sticker')" id="tool-sticker" title="ملصقات">
+                        🎭<span class="tooltip">ملصقات</span>
+                    </button>
+                    <button class="tool-btn" onclick="setActiveTool('crop')" id="tool-crop" title="قص">
+                        ✂️<span class="tooltip">قص</span>
+                    </button>
+                    <button class="tool-btn" onclick="setActiveTool('blur')" id="tool-blur" title="تعتيم">
+                        🌫️<span class="tooltip">تعتيم</span>
+                    </button>
+                </div>
+
                 <div class="canvas-wrapper" id="imageCanvasWrapper" style="display:none;">
                     <canvas id="imageCanvas"></canvas>
                 </div>
 
+                <!-- IMAGE CONTROLS -->
                 <div id="imageControls" style="display:none;">
-                    <div class="slider-group">
-                        <label>🔆 سطوع: <span id="brightnessVal">100%</span></label>
-                        <input type="range" id="brightness" min="0" max="200" value="100" oninput="updateImage()">
-                    </div>
-                    <div class="slider-group">
-                        <label>🌓 تباين: <span id="contrastVal">100%</span></label>
-                        <input type="range" id="contrast" min="0" max="200" value="100" oninput="updateImage()">
-                    </div>
-                    <div class="slider-group">
-                        <label>🎨 تشبع: <span id="saturationVal">100%</span></label>
-                        <input type="range" id="saturation" min="0" max="200" value="100" oninput="updateImage()">
-                    </div>
-                    <div class="slider-group">
-                        <label>🌡️ درجة حرارة: <span id="temperatureVal">0</span></label>
-                        <input type="range" id="temperature" min="-100" max="100" value="0" oninput="updateImage()">
-                    </div>
-
-                    <p style="font-size:0.8rem;color:var(--text-muted);margin:10px 0;">🎨 فلاتر سريعة:</p>
-                    <div class="filter-grid">
-                        <div class="filter-preset" onclick="applyFilter('normal')"><div class="preview" style="background:#888;"></div>طبيعي</div>
-                        <div class="filter-preset" onclick="applyFilter('grayscale')"><div class="preview" style="background:#999;"></div>أبيض/أسود</div>
-                        <div class="filter-preset" onclick="applyFilter('sepia')"><div class="preview" style="background:#b8a078;"></div>سيبيا</div>
-                        <div class="filter-preset" onclick="applyFilter('invert')"><div class="preview" style="background:#5566cc;"></div>نيغاتيف</div>
-                        <div class="filter-preset" onclick="applyFilter('vintage')"><div class="preview" style="background:#c4a882;"></div>عتيق</div>
-                        <div class="filter-preset" onclick="applyFilter('cool')"><div class="preview" style="background:#6688cc;"></div>بارد</div>
-                        <div class="filter-preset" onclick="applyFilter('warm')"><div class="preview" style="background:#cc8866;"></div>دافئ</div>
-                        <div class="filter-preset" onclick="applyFilter('dramatic')"><div class="preview" style="background:#445566;"></div>درامي</div>
+                    <!-- فلاتر -->
+                    <div class="controls-section">
+                        <h3>🎨 فلاتر الصورة</h3>
+                        <div class="filter-grid">
+                            <div class="filter-preset" onclick="applyFilter('normal')"><div class="preview" style="background:linear-gradient(135deg,#888,#aaa);"></div>طبيعي</div>
+                            <div class="filter-preset" onclick="applyFilter('grayscale')"><div class="preview" style="background:linear-gradient(135deg,#777,#999);"></div>رمادي</div>
+                            <div class="filter-preset" onclick="applyFilter('sepia')"><div class="preview" style="background:linear-gradient(135deg,#b8a078,#d4c098);"></div>سيبيا</div>
+                            <div class="filter-preset" onclick="applyFilter('invert')"><div class="preview" style="background:linear-gradient(135deg,#5566cc,#8899ee);"></div>عكسي</div>
+                            <div class="filter-preset" onclick="applyFilter('vintage')"><div class="preview" style="background:linear-gradient(135deg,#c4a882,#d9c9a0);"></div>قديم</div>
+                            <div class="filter-preset" onclick="applyFilter('cool')"><div class="preview" style="background:linear-gradient(135deg,#6688cc,#88aaee);"></div>بارد</div>
+                            <div class="filter-preset" onclick="applyFilter('warm')"><div class="preview" style="background:linear-gradient(135deg,#cc8866,#eeaa88);"></div>دافئ</div>
+                            <div class="filter-preset" onclick="applyFilter('dramatic')"><div class="preview" style="background:linear-gradient(135deg,#445566,#667788);"></div>درامي</div>
+                            <div class="filter-preset" onclick="applyFilter('cinematic')"><div class="preview" style="background:linear-gradient(135deg,#2a3a4a,#4a5a6a);"></div>سينمائي</div>
+                            <div class="filter-preset" onclick="applyFilter('dreamy')"><div class="preview" style="background:linear-gradient(135deg,#ccbbdd,#ddccee);"></div>حالم</div>
+                            <div class="filter-preset" onclick="applyFilter('neon')"><div class="preview" style="background:linear-gradient(135deg,#ff00ff,#00ffff);"></div>نيون</div>
+                            <div class="filter-preset" onclick="applyFilter('noir')"><div class="preview" style="background:linear-gradient(135deg,#111,#333);"></div>نوار</div>
+                            <div class="filter-preset" onclick="applyFilter('golden')"><div class="preview" style="background:linear-gradient(135deg,#cc9944,#eebb66);"></div>ذهبي</div>
+                            <div class="filter-preset" onclick="applyFilter('forest')"><div class="preview" style="background:linear-gradient(135deg,#336633,#558855);"></div>غابة</div>
+                            <div class="filter-preset" onclick="applyFilter('ocean')"><div class="preview" style="background:linear-gradient(135deg,#336699,#5599bb);"></div>محيط</div>
+                            <div class="filter-preset" onclick="applyFilter('sunset')"><div class="preview" style="background:linear-gradient(135deg,#cc6644,#ee8866);"></div>غروب</div>
+                        </div>
                     </div>
 
-                    <div class="controls-row">
-                        <button class="btn btn-outline" onclick="rotateImage(-90)">↩️ تدوير</button>
+                    <!-- تعديلات -->
+                    <div class="controls-section">
+                        <h3>⚙️ تعديلات الصورة</h3>
+                        <div class="slider-group">
+                            <label>🔆 السطوع <span id="brightnessVal">100%</span></label>
+                            <input type="range" id="brightness" min="0" max="200" value="100" oninput="updateImage()">
+                        </div>
+                        <div class="slider-group">
+                            <label>🌓 التباين <span id="contrastVal">100%</span></label>
+                            <input type="range" id="contrast" min="0" max="200" value="100" oninput="updateImage()">
+                        </div>
+                        <div class="slider-group">
+                            <label>🎨 التشبع <span id="saturationVal">100%</span></label>
+                            <input type="range" id="saturation" min="0" max="200" value="100" oninput="updateImage()">
+                        </div>
+                        <div class="slider-group">
+                            <label>🌡️ درجة الحرارة <span id="temperatureVal">0</span></label>
+                            <input type="range" id="temperature" min="-100" max="100" value="0" oninput="updateImage()">
+                        </div>
+                        <div class="slider-group">
+                            <label>🔍 الحدة <span id="sharpenVal">0</span></label>
+                            <input type="range" id="sharpen" min="0" max="100" value="0" oninput="updateImage()">
+                        </div>
+                        <div class="slider-group">
+                            <label>🌫️ التعتيم <span id="blurVal">0</span></label>
+                            <input type="range" id="blur" min="0" max="50" value="0" oninput="updateImage()">
+                        </div>
+                    </div>
+
+                    <!-- ملصقات -->
+                    <div class="controls-section" id="stickerSection" style="display:none;">
+                        <h3>🎭 الملصقات</h3>
+                        <div class="sticker-grid" id="stickerGrid"></div>
+                    </div>
+
+                    <!-- نص -->
+                    <div class="controls-section" id="textSection" style="display:none;">
+                        <h3>📝 إضافة نص</h3>
+                        <div class="text-input-group">
+                            <input type="text" id="textInput" placeholder="اكتب النص هنا..." style="flex:1;min-width:150px;">
+                            <select id="fontSelect">
+                                <option value="Cairo">Cairo</option>
+                                <option value="Arial">Arial</option>
+                                <option value="Impact">Impact</option>
+                                <option value="Georgia">Georgia</option>
+                                <option value="monospace">Monospace</option>
+                            </select>
+                            <input type="number" id="fontSize" value="40" min="10" max="200" style="width:70px;">
+                            <input type="color" id="textColor" value="#ffffff">
+                            <button class="btn btn-sm btn-primary" onclick="addTextToCanvas()">إضافة</button>
+                        </div>
+                    </div>
+
+                    <!-- رسم -->
+                    <div class="controls-section" id="drawSection" style="display:none;">
+                        <h3>✏️ الرسم</h3>
+                        <div class="btn-row">
+                            <input type="color" id="drawColor" value="#ff0000">
+                            <input type="number" id="drawSize" value="5" min="1" max="50" style="width:70px;">
+                            <button class="btn btn-sm btn-outline" onclick="clearDrawing()">مسح الرسم</button>
+                        </div>
+                    </div>
+
+                    <!-- أزرار الإجراءات -->
+                    <div class="btn-row">
+                        <button class="btn btn-outline" onclick="rotateImage(-90)">↩️ تدوير -90°</button>
+                        <button class="btn btn-outline" onclick="rotateImage(90)">↪️ تدوير +90°</button>
                         <button class="btn btn-outline" onclick="flipImage('horizontal')">🪞 قلب أفقي</button>
                         <button class="btn btn-outline" onclick="flipImage('vertical')">🪞 قلب عمودي</button>
-                        <button class="btn btn-success" onclick="downloadImage()">📥 تحميل</button>
-                        <button class="btn btn-danger" onclick="resetImage()">🔄 إعادة</button>
+                        <button class="btn btn-outline" onclick="resetAllAdjustments()">🔄 إعادة الضبط</button>
+                        <button class="btn btn-success" onclick="downloadImage()">📥 تحميل PNG</button>
+                        <button class="btn btn-accent" onclick="downloadImage('jpeg')">📥 تحميل JPEG</button>
+                        <button class="btn btn-danger" onclick="resetImage()">🗑️ حذف</button>
                     </div>
                 </div>
             </div>
 
-            <!-- VIDEO TAB -->
+            <!-- ==================== VIDEO TAB ==================== -->
             <div id="tab-video" class="hidden">
-                <div class="upload-area" onclick="document.getElementById('videoInput').click()">
+                <div class="upload-area" id="videoUploadArea" onclick="document.getElementById('videoInput').click()">
                     <div class="upload-icon">🎥</div>
-                    <p>اضغط لرفع فيديو</p>
-                    <p style="font-size:0.75rem;color:var(--text-muted);">MP4, WebM</p>
+                    <p style="font-weight:700;">اضغط لرفع فيديو</p>
+                    <p style="font-size:0.75rem;color:var(--text-muted);">يدعم: MP4, WebM, MOV</p>
                 </div>
                 <input type="file" id="videoInput" accept="video/*" onchange="loadVideo(event)">
-                
+
                 <div id="videoPreview" style="display:none;">
-                    <video id="videoElement" controls style="width:100%;max-width:600px;display:block;margin:0 auto;border-radius:16px;"></video>
-                    <div class="controls-row" style="margin-top:15px;">
-                        <button class="btn btn-outline" onclick="toggleVideoPlay()">▶️ تشغيل/إيقاف</button>
-                        <button class="btn btn-outline" onclick="captureVideoFrame()">📸 التقاط إطار</button>
-                        <button class="btn btn-danger" onclick="resetVideo()">🔄 إعادة</button>
+                    <video id="videoElement" controls style="width:100%;max-width:700px;display:block;margin:0 auto;border-radius:16px;"></video>
+                    
+                    <div class="controls-section" style="margin-top:15px;">
+                        <h3>🎥 أدوات الفيديو</h3>
+                        <div class="btn-row">
+                            <button class="btn btn-outline" onclick="toggleVideoPlay()">▶️ تشغيل/إيقاف</button>
+                            <button class="btn btn-outline" onclick="videoBackward()">⏪ -10ث</button>
+                            <button class="btn btn-outline" onclick="videoForward()">⏩ +10ث</button>
+                            <button class="btn btn-outline" onclick="changeVideoSpeed(0.5)">🐢 بطيء</button>
+                            <button class="btn btn-outline" onclick="changeVideoSpeed(1)">🐇 عادي</button>
+                            <button class="btn btn-outline" onclick="changeVideoSpeed(2)">🚀 سريع</button>
+                            <button class="btn btn-accent" onclick="captureVideoFrame()">📸 التقاط إطار</button>
+                            <button class="btn btn-danger" onclick="resetVideo()">🗑️ حذف</button>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- AUDIO TAB -->
+            <!-- ==================== AUDIO TAB ==================== -->
             <div id="tab-audio" class="hidden">
-                <div class="upload-area" onclick="document.getElementById('audioInput').click()">
+                <div class="upload-area" id="audioUploadArea" onclick="document.getElementById('audioInput').click()">
                     <div class="upload-icon">🎵</div>
-                    <p>اضغط لرفع ملف صوتي</p>
-                    <p style="font-size:0.75rem;color:var(--text-muted);">MP3, WAV, OGG</p>
+                    <p style="font-weight:700;">اضغط لرفع ملف صوتي</p>
+                    <p style="font-size:0.75rem;color:var(--text-muted);">يدعم: MP3, WAV, OGG, FLAC, AAC</p>
                 </div>
                 <input type="file" id="audioInput" accept="audio/*" onchange="loadAudio(event)">
-                
+
                 <div id="audioPreview" style="display:none;">
                     <audio id="audioElement" controls style="width:100%;display:block;margin:0 auto;"></audio>
-                    <p style="text-align:center;color:var(--text-muted);margin-top:10px;">🎵 يمكنك تشغيل الملف الصوتي والتحكم به من خلال المشغل أعلاه</p>
-                    <div class="controls-row" style="margin-top:15px;">
-                        <button class="btn btn-outline" onclick="toggleAudioPlay()">▶️ تشغيل/إيقاف</button>
-                        <button class="btn btn-danger" onclick="resetAudio()">🔄 إعادة</button>
+                    
+                    <div class="controls-section" style="margin-top:15px;">
+                        <h3>🎵 أدوات الصوت</h3>
+                        <div class="btn-row">
+                            <button class="btn btn-outline" onclick="toggleAudioPlay()">▶️ تشغيل/إيقاف</button>
+                            <button class="btn btn-outline" onclick="audioBackward()">⏪ -10ث</button>
+                            <button class="btn btn-outline" onclick="audioForward()">⏩ +10ث</button>
+                            <button class="btn btn-outline" onclick="changeAudioVolume(0.5)">🔉 50%</button>
+                            <button class="btn btn-outline" onclick="changeAudioVolume(1)">🔊 100%</button>
+                            <button class="btn btn-outline" onclick="changeAudioSpeed(0.5)">🐢 بطيء</button>
+                            <button class="btn btn-outline" onclick="changeAudioSpeed(1)">🐇 عادي</button>
+                            <button class="btn btn-outline" onclick="changeAudioSpeed(2)">🚀 سريع</button>
+                            <button class="btn btn-danger" onclick="resetAudio()">🗑️ حذف</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -821,6 +1020,15 @@
     <div class="toast" id="toast"></div>
 
     <script>
+        // ==================== GLOBAL STATE ====================
+        let originalImage = null;
+        let currentFilter = 'normal';
+        let activeTool = 'select';
+        let textElements = [];
+        let drawingData = null;
+        let isDrawing = false;
+        let drawStartX = 0, drawStartY = 0;
+
         // ==================== SIDEBAR ====================
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
@@ -845,18 +1053,6 @@
             document.getElementById('menuBtn').classList.remove('active');
         }
 
-        // ==================== TAB SWITCHING ====================
-        function switchTab(tab) {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            document.getElementById('tab-image').classList.add('hidden');
-            document.getElementById('tab-video').classList.add('hidden');
-            document.getElementById('tab-audio').classList.add('hidden');
-            
-            document.getElementById('tab-' + tab).classList.remove('hidden');
-        }
-
         // ==================== TOAST ====================
         function showToast(msg, isError = false) {
             const toast = document.getElementById('toast');
@@ -866,7 +1062,7 @@
             setTimeout(() => toast.classList.remove('show'), 2800);
         }
 
-        // ==================== COPY FUNCTIONS ====================
+        // ==================== COPY ====================
         function copyBTC() {
             navigator.clipboard.writeText('bc1qyamlrentlllxrlwrlp3jkapw6n8tna2llxta49')
                 .then(() => showToast('✅ تم نسخ عنوان BTC'));
@@ -877,10 +1073,19 @@
                 .then(() => showToast('✅ تم نسخ عنوان ETH'));
         }
 
-        // ==================== IMAGE EDITOR ====================
-        let originalImage = null;
-        let currentFilter = 'normal';
+        // ==================== TAB SWITCHING ====================
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('tabBtn-' + tab).classList.add('active');
+            
+            ['image', 'video', 'audio'].forEach(t => {
+                document.getElementById('tab-' + t).classList.toggle('hidden', t !== tab);
+            });
+            
+            if (tab === 'image' && originalImage) updateImage();
+        }
 
+        // ==================== IMAGE LOADING ====================
         function loadImage(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -890,111 +1095,172 @@
                 const img = new Image();
                 img.onload = function() {
                     originalImage = img;
-                    document.getElementById('imageCanvasWrapper').style.display = 'flex';
-                    document.getElementById('imageControls').style.display = 'block';
-                    document.querySelector('#tab-image .upload-area').style.display = 'none';
+                    textElements = [];
+                    drawingData = null;
                     currentFilter = 'normal';
-                    resetSliders();
+                    activeTool = 'select';
+                    
+                    document.getElementById('imageUploadArea').style.display = 'none';
+                    document.getElementById('imageCanvasWrapper').style.display = 'flex';
+                    document.getElementById('imageToolbar').style.display = 'flex';
+                    document.getElementById('imageControls').style.display = 'block';
+                    
+                    resetAllSliders();
+                    updateActiveToolUI();
                     updateImage();
+                    showToast('📷 تم تحميل الصورة بنجاح');
                 };
                 img.src = e.target.result;
             };
             reader.readAsDataURL(file);
         }
 
-        function resetSliders() {
+        function resetAllSliders() {
             document.getElementById('brightness').value = 100;
             document.getElementById('contrast').value = 100;
             document.getElementById('saturation').value = 100;
             document.getElementById('temperature').value = 0;
+            document.getElementById('sharpen').value = 0;
+            document.getElementById('blur').value = 0;
             document.getElementById('brightnessVal').textContent = '100%';
             document.getElementById('contrastVal').textContent = '100%';
             document.getElementById('saturationVal').textContent = '100%';
             document.getElementById('temperatureVal').textContent = '0';
+            document.getElementById('sharpenVal').textContent = '0';
+            document.getElementById('blurVal').textContent = '0';
         }
 
+        function resetAllAdjustments() {
+            currentFilter = 'normal';
+            resetAllSliders();
+            updateImage();
+            showToast('🔄 تم إعادة ضبط كل التعديلات');
+        }
+
+        // ==================== TOOLS ====================
+        function setActiveTool(tool) {
+            activeTool = tool;
+            updateActiveToolUI();
+            
+            document.getElementById('stickerSection').style.display = tool === 'sticker' ? 'block' : 'none';
+            document.getElementById('textSection').style.display = tool === 'text' ? 'block' : 'none';
+            document.getElementById('drawSection').style.display = tool === 'draw' ? 'block' : 'none';
+            
+            if (tool === 'sticker') renderStickers();
+            if (tool === 'crop') startCrop();
+            if (tool === 'blur') applyBlurTool();
+        }
+
+        function updateActiveToolUI() {
+            document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+            const activeBtn = document.getElementById('tool-' + activeTool);
+            if (activeBtn) activeBtn.classList.add('active');
+        }
+
+        // ==================== FILTERS ====================
         function applyFilter(filter) {
             currentFilter = filter;
-            resetSliders();
             updateImage();
-            showToast('🎨 تم تطبيق الفلتر: ' + filter);
+            showToast('🎨 تم تطبيق فلتر: ' + filter);
         }
 
+        // ==================== IMAGE RENDERING ====================
         function updateImage() {
             if (!originalImage) return;
             
             const canvas = document.getElementById('imageCanvas');
             const ctx = canvas.getContext('2d');
             
-            const maxWidth = Math.min(600, window.innerWidth - 60);
+            const maxWidth = Math.min(680, window.innerWidth - 40);
             const ratio = maxWidth / originalImage.width;
             canvas.width = maxWidth;
             canvas.height = originalImage.height * ratio;
             
-            // Apply filters
             const brightness = document.getElementById('brightness').value / 100;
             const contrast = document.getElementById('contrast').value / 100;
             const saturation = document.getElementById('saturation').value / 100;
             const temperature = parseInt(document.getElementById('temperature').value);
+            const sharpenVal = parseInt(document.getElementById('sharpen').value);
+            const blurVal = parseInt(document.getElementById('blur').value);
             
             document.getElementById('brightnessVal').textContent = Math.round(brightness * 100) + '%';
             document.getElementById('contrastVal').textContent = Math.round(contrast * 100) + '%';
             document.getElementById('saturationVal').textContent = Math.round(saturation * 100) + '%';
             document.getElementById('temperatureVal').textContent = temperature;
+            document.getElementById('sharpenVal').textContent = sharpenVal;
+            document.getElementById('blurVal').textContent = blurVal;
             
             ctx.filter = `brightness(${brightness}) contrast(${contrast}) saturate(${saturation})`;
             
-            // Apply special filters
+            if (blurVal > 0) ctx.filter += ` blur(${blurVal}px)`;
+            
             switch(currentFilter) {
-                case 'grayscale':
-                    ctx.filter += ' grayscale(1)';
-                    break;
-                case 'sepia':
-                    ctx.filter += ' sepia(0.8)';
-                    break;
-                case 'invert':
-                    ctx.filter += ' invert(1)';
-                    break;
-                case 'vintage':
-                    ctx.filter += ' sepia(0.4) contrast(1.1) brightness(0.9)';
-                    break;
-                case 'cool':
-                    ctx.filter += ' hue-rotate(30deg)';
-                    break;
-                case 'warm':
-                    ctx.filter += ' hue-rotate(-30deg) saturate(1.3)';
-                    break;
-                case 'dramatic':
-                    ctx.filter += ' contrast(1.4) brightness(0.8) saturate(0.8)';
-                    break;
+                case 'grayscale': ctx.filter += ' grayscale(1)'; break;
+                case 'sepia': ctx.filter += ' sepia(0.8)'; break;
+                case 'invert': ctx.filter += ' invert(1)'; break;
+                case 'vintage': ctx.filter += ' sepia(0.4) contrast(1.1) brightness(0.9)'; break;
+                case 'cool': ctx.filter += ' hue-rotate(30deg)'; break;
+                case 'warm': ctx.filter += ' hue-rotate(-30deg) saturate(1.3)'; break;
+                case 'dramatic': ctx.filter += ' contrast(1.4) brightness(0.8) saturate(0.8)'; break;
+                case 'cinematic': ctx.filter += ' contrast(1.2) brightness(0.85) saturate(0.7)'; break;
+                case 'dreamy': ctx.filter += ' brightness(1.1) saturate(0.6) blur(1px)'; break;
+                case 'neon': ctx.filter += ' contrast(1.5) saturate(2) brightness(1.2)'; break;
+                case 'noir': ctx.filter += ' grayscale(1) contrast(1.3) brightness(0.7)'; break;
+                case 'golden': ctx.filter += ' sepia(0.5) saturate(1.4) brightness(1.1) hue-rotate(-10deg)'; break;
+                case 'forest': ctx.filter += ' hue-rotate(60deg) saturate(1.2) brightness(0.9)'; break;
+                case 'ocean': ctx.filter += ' hue-rotate(160deg) saturate(1.1) brightness(1)'; break;
+                case 'sunset': ctx.filter += ' hue-rotate(-20deg) saturate(1.5) brightness(1.1)'; break;
             }
             
             ctx.drawImage(originalImage, 0, 0, canvas.width, canvas.height);
             
-            // Temperature adjustment (after draw)
             if (temperature !== 0) {
                 const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
                 const data = imageData.data;
                 for (let i = 0; i < data.length; i += 4) {
-                    data[i] = Math.min(255, data[i] + temperature);     // Red
-                    data[i+2] = Math.min(255, data[i+2] - temperature); // Blue
+                    data[i] = Math.min(255, Math.max(0, data[i] + temperature));
+                    data[i+2] = Math.min(255, Math.max(0, data[i+2] - temperature));
                 }
                 ctx.putImageData(imageData, 0, 0);
             }
+            
+            if (sharpenVal > 0 && blurVal === 0) {
+                ctx.filter = `contrast(${1 + sharpenVal / 50}) brightness(${1 + sharpenVal / 200})`;
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                ctx.putImageData(imageData, 0, 0);
+            }
+            
+            // Restore text elements
+            textElements.forEach(te => {
+                ctx.filter = 'none';
+                ctx.font = `${te.size}px "${te.font}"`;
+                ctx.fillStyle = te.color;
+                ctx.fillText(te.text, te.x, te.y);
+            });
+            
+            // Restore drawing
+            if (drawingData) {
+                ctx.filter = 'none';
+                ctx.putImageData(drawingData, 0, 0);
+            }
         }
 
+        // ==================== IMAGE TRANSFORMATIONS ====================
         function rotateImage(degrees) {
             if (!originalImage) return;
             const canvas = document.getElementById('imageCanvas');
             const ctx = canvas.getContext('2d');
             
             const tempCanvas = document.createElement('canvas');
-            tempCanvas.width = canvas.height;
-            tempCanvas.height = canvas.width;
-            const tempCtx = tempCanvas.getContext('2d');
+            const angle = degrees * Math.PI / 180;
+            const absCos = Math.abs(Math.cos(angle));
+            const absSin = Math.abs(Math.sin(angle));
+            tempCanvas.width = canvas.height * absSin + canvas.width * absCos;
+            tempCanvas.height = canvas.height * absCos + canvas.width * absSin;
             
+            const tempCtx = tempCanvas.getContext('2d');
             tempCtx.translate(tempCanvas.width / 2, tempCanvas.height / 2);
-            tempCtx.rotate(degrees * Math.PI / 180);
+            tempCtx.rotate(angle);
             tempCtx.drawImage(canvas, -canvas.width / 2, -canvas.height / 2);
             
             canvas.width = tempCanvas.width;
@@ -1014,20 +1280,85 @@
             
             if (direction === 'horizontal') {
                 ctx.scale(-1, 1);
-                ctx.drawImage(canvas, -canvas.width, 0);
+                ctx.drawImage(canvas, -canvas.width, 0, canvas.width, canvas.height);
             } else {
                 ctx.scale(1, -1);
-                ctx.drawImage(canvas, 0, -canvas.height);
+                ctx.drawImage(canvas, 0, -canvas.height, canvas.width, canvas.height);
             }
             ctx.restore();
             showToast('✅ تم القلب');
         }
 
-        function downloadImage() {
+        // ==================== TEXT ====================
+        function addTextToCanvas() {
+            const text = document.getElementById('textInput').value;
+            const font = document.getElementById('fontSelect').value;
+            const size = parseInt(document.getElementById('fontSize').value);
+            const color = document.getElementById('textColor').value;
+            
+            if (!text) { showToast('⚠️ اكتب نصاً أولاً', true); return; }
+            
+            const canvas = document.getElementById('imageCanvas');
+            const x = canvas.width / 2;
+            const y = canvas.height / 2;
+            
+            textElements.push({ text, font, size, color, x, y });
+            updateImage();
+            showToast('✅ تمت إضافة النص');
+            document.getElementById('textInput').value = '';
+        }
+
+        // ==================== STICKERS ====================
+        const stickers = ['😀','😂','❤️','🔥','🎉','🌟','💎','🎨','🎬','📷','🎵','🎮',
+            '🚀','💻','📱','🌈','🍕','⚡','🎯','🏆','👑','💪','🤖','🦊','🐱'];
+
+        function renderStickers() {
+            const grid = document.getElementById('stickerGrid');
+            grid.innerHTML = '';
+            stickers.forEach(s => {
+                const div = document.createElement('div');
+                div.className = 'sticker-item';
+                div.textContent = s;
+                div.onclick = () => addStickerToCanvas(s);
+                grid.appendChild(div);
+            });
+        }
+
+        function addStickerToCanvas(sticker) {
+            const canvas = document.getElementById('imageCanvas');
+            const ctx = canvas.getContext('2d');
+            ctx.font = '60px Arial';
+            ctx.fillText(sticker, canvas.width / 2 - 30, canvas.height / 2);
+            drawingData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            showToast('✅ تمت إضافة الملصق');
+        }
+
+        // ==================== DRAWING ====================
+        function clearDrawing() {
+            drawingData = null;
+            updateImage();
+            showToast('🧹 تم مسح الرسم');
+        }
+
+        // ==================== CROP & BLUR ====================
+        function startCrop() {
+            showToast('✂️ استخدم أداة القص من القائمة');
+        }
+
+        function applyBlurTool() {
+            document.getElementById('blur').value = 10;
+            updateImage();
+            showToast('🌫️ تم تطبيق التعتيم');
+        }
+
+        // ==================== DOWNLOAD ====================
+        function downloadImage(format = 'png') {
             const canvas = document.getElementById('imageCanvas');
             const link = document.createElement('a');
-            link.download = 'general-fix-edited-image.png';
-            link.href = canvas.toDataURL('image/png');
+            const ext = format === 'jpeg' ? 'jpg' : 'png';
+            const mime = format === 'jpeg' ? 'image/jpeg' : 'image/png';
+            link.download = `general-fix-edited.${ext}`;
+            link.href = canvas.toDataURL(mime, 0.95);
             link.click();
             showToast('📥 تم تحميل الصورة');
         }
@@ -1035,13 +1366,57 @@
         function resetImage() {
             originalImage = null;
             currentFilter = 'normal';
+            textElements = [];
+            drawingData = null;
+            activeTool = 'select';
+            
+            document.getElementById('imageUploadArea').style.display = 'block';
             document.getElementById('imageCanvasWrapper').style.display = 'none';
+            document.getElementById('imageToolbar').style.display = 'none';
             document.getElementById('imageControls').style.display = 'none';
-            document.querySelector('#tab-image .upload-area').style.display = 'block';
+            document.getElementById('stickerSection').style.display = 'none';
+            document.getElementById('textSection').style.display = 'none';
+            document.getElementById('drawSection').style.display = 'none';
             document.getElementById('imageInput').value = '';
-            resetSliders();
-            showToast('🔄 تمت إعادة التعيين');
+            resetAllSliders();
+            showToast('🗑️ تم حذف الصورة');
         }
+
+        // ==================== CANVAS DRAWING EVENTS ====================
+        document.getElementById('imageCanvas')?.addEventListener('mousedown', function(e) {
+            if (activeTool === 'draw') {
+                isDrawing = true;
+                const rect = this.getBoundingClientRect();
+                drawStartX = e.clientX - rect.left;
+                drawStartY = e.clientY - rect.top;
+            }
+        });
+
+        document.getElementById('imageCanvas')?.addEventListener('mousemove', function(e) {
+            if (isDrawing && activeTool === 'draw') {
+                const ctx = this.getContext('2d');
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const color = document.getElementById('drawColor').value;
+                const size = parseInt(document.getElementById('drawSize').value);
+                
+                ctx.beginPath();
+                ctx.moveTo(drawStartX, drawStartY);
+                ctx.lineTo(x, y);
+                ctx.strokeStyle = color;
+                ctx.lineWidth = size;
+                ctx.lineCap = 'round';
+                ctx.stroke();
+                
+                drawStartX = x;
+                drawStartY = y;
+                drawingData = ctx.getImageData(0, 0, this.width, this.height);
+            }
+        });
+
+        document.getElementById('imageCanvas')?.addEventListener('mouseup', () => { isDrawing = false; });
+        document.getElementById('imageCanvas')?.addEventListener('mouseleave', () => { isDrawing = false; });
 
         // ==================== VIDEO TOOLS ====================
         function loadVideo(event) {
@@ -1051,47 +1426,53 @@
             const url = URL.createObjectURL(file);
             const video = document.getElementById('videoElement');
             video.src = url;
+            document.getElementById('videoUploadArea').style.display = 'none';
             document.getElementById('videoPreview').style.display = 'block';
-            document.querySelector('#tab-video .upload-area').style.display = 'none';
             showToast('🎥 تم تحميل الفيديو');
         }
 
         function toggleVideoPlay() {
             const video = document.getElementById('videoElement');
-            if (video.paused) video.play();
-            else video.pause();
+            video.paused ? video.play() : video.pause();
+        }
+
+        function videoBackward() { document.getElementById('videoElement').currentTime -= 10; }
+        function videoForward() { document.getElementById('videoElement').currentTime += 10; }
+
+        function changeVideoSpeed(speed) {
+            document.getElementById('videoElement').playbackRate = speed;
+            showToast('⚡ سرعة الفيديو: ' + speed + 'x');
         }
 
         function captureVideoFrame() {
             const video = document.getElementById('videoElement');
             const canvas = document.createElement('canvas');
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
+            canvas.width = video.videoWidth || 640;
+            canvas.height = video.videoHeight || 360;
             const ctx = canvas.getContext('2d');
-            ctx.drawImage(video, 0, 0);
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
             
-            // Set as image for editing
             const img = new Image();
             img.onload = function() {
                 originalImage = img;
                 switchTab('image');
+                document.getElementById('imageUploadArea').style.display = 'none';
                 document.getElementById('imageCanvasWrapper').style.display = 'flex';
+                document.getElementById('imageToolbar').style.display = 'flex';
                 document.getElementById('imageControls').style.display = 'block';
-                document.querySelector('#tab-image .upload-area').style.display = 'none';
-                resetSliders();
+                resetAllSliders();
                 updateImage();
+                showToast('📸 تم التقاط الإطار للتحرير');
             };
             img.src = canvas.toDataURL();
-            showToast('📸 تم التقاط الإطار! انتقل لتبويب الصور');
         }
 
         function resetVideo() {
-            const video = document.getElementById('videoElement');
-            video.src = '';
+            document.getElementById('videoElement').src = '';
+            document.getElementById('videoUploadArea').style.display = 'block';
             document.getElementById('videoPreview').style.display = 'none';
-            document.querySelector('#tab-video .upload-area').style.display = 'block';
             document.getElementById('videoInput').value = '';
-            showToast('🔄 تمت إعادة التعيين');
+            showToast('🗑️ تم حذف الفيديو');
         }
 
         // ==================== AUDIO TOOLS ====================
@@ -1102,63 +1483,88 @@
             const url = URL.createObjectURL(file);
             const audio = document.getElementById('audioElement');
             audio.src = url;
+            document.getElementById('audioUploadArea').style.display = 'none';
             document.getElementById('audioPreview').style.display = 'block';
-            document.querySelector('#tab-audio .upload-area').style.display = 'none';
             showToast('🎵 تم تحميل الملف الصوتي');
         }
 
         function toggleAudioPlay() {
             const audio = document.getElementById('audioElement');
-            if (audio.paused) audio.play();
-            else audio.pause();
+            audio.paused ? audio.play() : audio.pause();
+        }
+
+        function audioBackward() { document.getElementById('audioElement').currentTime -= 10; }
+        function audioForward() { document.getElementById('audioElement').currentTime += 10; }
+
+        function changeAudioVolume(vol) {
+            document.getElementById('audioElement').volume = vol;
+            showToast('🔊 مستوى الصوت: ' + (vol * 100) + '%');
+        }
+
+        function changeAudioSpeed(speed) {
+            document.getElementById('audioElement').playbackRate = speed;
+            showToast('⚡ سرعة الصوت: ' + speed + 'x');
         }
 
         function resetAudio() {
-            const audio = document.getElementById('audioElement');
-            audio.src = '';
+            document.getElementById('audioElement').src = '';
+            document.getElementById('audioUploadArea').style.display = 'block';
             document.getElementById('audioPreview').style.display = 'none';
-            document.querySelector('#tab-audio .upload-area').style.display = 'block';
             document.getElementById('audioInput').value = '';
-            showToast('🔄 تمت إعادة التعيين');
+            showToast('🗑️ تم حذف الملف الصوتي');
         }
 
-        // ==================== PWA SERVICE WORKER ====================
+        // ==================== PWA ====================
         if ('serviceWorker' in navigator) {
             const swCode = `
-                const CACHE_NAME = 'general-fix-editor-v1';
-                const urlsToCache = ['.'];
-                
-                self.addEventListener('install', event => {
-                    event.waitUntil(
-                        caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
-                    );
+                const CACHE = 'gf-editor-v2';
+                self.addEventListener('install', e => {
+                    e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
+                    self.skipWaiting();
                 });
-                
-                self.addEventListener('fetch', event => {
-                    event.respondWith(
-                        caches.match(event.request).then(response => response || fetch(event.request))
+                self.addEventListener('activate', e => {
+                    e.waitUntil(caches.keys().then(keys => Promise.all(
+                        keys.filter(k => k !== CACHE).map(k => caches.delete(k))
+                    )));
+                    self.clients.claim();
+                });
+                self.addEventListener('fetch', e => {
+                    e.respondWith(
+                        caches.match(e.request).then(r => r || fetch(e.request).then(res => {
+                            if(res.ok) {
+                                const clone = res.clone();
+                                caches.open(CACHE).then(c => c.put(e.request, clone));
+                            }
+                            return res;
+                        }))
                     );
                 });
             `;
             
             const blob = new Blob([swCode], { type: 'application/javascript' });
-            const swUrl = URL.createObjectURL(blob);
-            
-            navigator.serviceWorker.register(swUrl)
-                .then(() => console.log('✅ PWA Service Worker Registered'))
-                .catch(err => console.log('Service Worker skipped:', err));
+            navigator.serviceWorker.register(URL.createObjectURL(blob))
+                .then(() => console.log('✅ PWA Active'))
+                .catch(() => console.log('PWA skipped'));
         }
 
         // ==================== KEYBOARD SHORTCUTS ====================
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') closeSidebar();
+            if (e.ctrlKey || e.metaKey) {
+                switch(e.key.toLowerCase()) {
+                    case 's': e.preventDefault(); if (!document.getElementById('tab-image').classList.contains('hidden')) downloadImage(); break;
+                    case 'z': e.preventDefault(); resetAllAdjustments(); break;
+                    case 'e': e.preventDefault(); if (!document.getElementById('tab-image').classList.contains('hidden')) document.getElementById('imageInput').click(); break;
+                }
+            }
         });
 
         // ==================== INIT ====================
-        console.log('🎬 General Fix Editor - المحرر الأسطوري');
-        console.log('👨‍💻 Developed by General Fix Team');
-        console.log('📱 PWA Ready | 📷 Images | 🎥 Video | 🎵 Audio');
-        console.log('💡 مجاني 100% | بدون سيرفر | بدون API');
+        console.log('🎬🔥 General Fix Editor - النسخة الأسطورية الكاملة');
+        console.log('👨‍💻 General Fix Team | 2025-2026');
+        console.log('📷 16 فلتر | ✏️ رسم | 📝 نصوص | 🎭 ملصقات | ✂️ قص');
+        console.log('🎥 فيديو | 🎵 صوت | 📱 PWA | 💾 حفظ تلقائي');
+        console.log('💡 اختصارات: Ctrl+S تحميل | Ctrl+Z إعادة ضبط | Ctrl+E رفع صورة');
     </script>
 </body>
 </html>
